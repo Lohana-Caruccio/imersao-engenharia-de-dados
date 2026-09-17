@@ -27,6 +27,6 @@ SELECT
   (ad.icao IS NOT NULL) AS destino_no_cadastro,
   (em.icao IS NOT NULL) AS empresa_no_cadastro
 FROM voebem.silver.vra v
-LEFT JOIN aerodromo ao ON v.icao_origem  = ao.icao
-LEFT JOIN aerodromo ad ON v.icao_destino = ad.icao
+LEFT JOIN aerodromo ao ON v.icao_aerodromo_origem  = ao.icao
+LEFT JOIN aerodromo ad ON v.icao_aerodromo_destino = ad.icao
 LEFT JOIN empresa   em ON v.icao_empresa = em.icao;
