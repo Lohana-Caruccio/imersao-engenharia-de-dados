@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "5"
+# ///
 # MAGIC %md
 # MAGIC # Governança da gold — documentação, tags e lineage
 # MAGIC
@@ -92,14 +96,14 @@ COMENTARIOS_OBT = {
     "escopo_voo":             "Classificacao de negocio do voo em Domestico ou Internacional, derivada do tipo de linha. E a coluna certa para comparar os dois universos.",
 
     # ---- origem ----
-    "icao_origem":            "Codigo ICAO do aeroporto de partida. Use nome_aeroporto_origem para exibir.",
+    "icao_aerodromo_origem":  "Codigo ICAO do aeroporto de partida. Use nome_aeroporto_origem para exibir.",
     "nome_aeroporto_origem":  "Nome do aeroporto de partida. Aeroporto estrangeiro nao consta no cadastro da ANAC e aparece como AEROPORTO FORA DO CADASTRO ANAC seguido do codigo.",
     "municipio_origem":       "Municipio do aeroporto de partida. Vazio para aeroporto estrangeiro, que nao esta no cadastro brasileiro.",
     "uf_origem":              "Unidade federativa do aeroporto de partida, escrita POR EXTENSO (Sao Paulo, Ceara), como a ANAC publica. Nao e a sigla.",
     "pais_origem":            "Brasil ou Exterior, deduzido do prefixo do codigo ICAO. Serve para separar operacao domestica de internacional pelo lado do aeroporto.",
 
     # ---- destino ----
-    "icao_destino":           "Codigo ICAO do aeroporto de chegada. Use nome_aeroporto_destino para exibir.",
+    "icao_aerodromo_destino": "Codigo ICAO do aeroporto de chegada. Use nome_aeroporto_destino para exibir.",
     "nome_aeroporto_destino": "Nome do aeroporto de chegada. Mesma regra de fallback do aeroporto de origem.",
     "municipio_destino":      "Municipio do aeroporto de chegada. Vazio para aeroporto estrangeiro.",
     "uf_destino":             "Unidade federativa do aeroporto de chegada, por extenso.",
@@ -162,8 +166,8 @@ COMENTARIOS_DIM = {
 }
 
 COMENTARIOS_FATO = dict(COMENTARIOS_OBT)
-COMENTARIOS_FATO["icao_origem"]  = "Codigo ICAO do aeroporto de partida. Chave para gold.dim_aeroporto."
-COMENTARIOS_FATO["icao_destino"] = "Codigo ICAO do aeroporto de chegada. Chave para gold.dim_aeroporto."
+COMENTARIOS_FATO["icao_aerodromo_origem"]  = "Codigo ICAO do aeroporto de partida. Chave para gold.dim_aeroporto."
+COMENTARIOS_FATO["icao_aerodromo_destino"] = "Codigo ICAO do aeroporto de chegada. Chave para gold.dim_aeroporto."
 COMENTARIOS_FATO["rota"] = "Rota no formato ORIGEM - DESTINO usando codigos ICAO."
 COMENTARIOS_FATO["cadastro_companhia"] = "De qual cadastro da ANAC veio a companhia: nacional ou estrangeira. Nulo quando o codigo nao tem cadastro."
 COLUNAS_FATO = [c for c in COMENTARIOS_FATO if c not in (
