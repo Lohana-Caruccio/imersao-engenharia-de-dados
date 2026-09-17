@@ -9,11 +9,13 @@
 -- Regra de negocio que nasce aqui: a classificacao pais_aeroporto pelo prefixo
 -- ICAO. Isso nao podia estar na silver — e interpretacao, nao aritmetica.
 -- ---------------------------------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS voebem.gold;
+
 CREATE OR REPLACE TABLE voebem.gold.dim_aeroporto AS
 WITH aeroportos_do_fato AS (
-  SELECT DISTINCT icao_origem  AS icao FROM voebem.silver.vra WHERE icao_origem  IS NOT NULL AND icao_origem  <> ''
+  SELECT DISTINCT icao_aerodromo_origem  AS icao FROM voebem.silver.vra WHERE icao_aerodromo_origem  IS NOT NULL AND icao_aerodromo_origem  <> ''
   UNION
-  SELECT DISTINCT icao_destino AS icao FROM voebem.silver.vra WHERE icao_destino IS NOT NULL AND icao_destino <> ''
+  SELECT DISTINCT icao_aerodromo_destino AS icao FROM voebem.silver.vra WHERE icao_aerodromo_destino IS NOT NULL AND icao_aerodromo_destino <> ''
 ),
 -- defesa: se a ANAC republicar o cadastro com ICAO repetido, o join
 -- multiplicaria linhas do fato sem dar erro nenhum. Hoje sao 496/496.
@@ -33,7 +35,7 @@ SELECT
                                                                       AS nome_aeroporto,
   c.municipio                                                         AS municipio_aeroporto,
   c.uf_nome                                                           AS uf_aeroporto,
-  CASE WHEN a.icao RLIKE '^S[BDIJNSW]' THEN 'Brasil' ELSE 'Exterior' END
+  CASE WHEN a.icao RLIKE '^S[BDIJNSW]' THEN 'Brasil' ELSE 'Extervoebem.gold.dim_aeroportoior' END
                                                                       AS pais_aeroporto,
   (c.icao IS NOT NULL)                                                AS no_cadastro_anac,
   current_timestamp()                                                 AS _processado_em

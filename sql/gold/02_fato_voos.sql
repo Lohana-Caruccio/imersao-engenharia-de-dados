@@ -40,7 +40,7 @@ WITH vra_sem_duplicata AS (
     SELECT *,
       ROW_NUMBER() OVER (
         PARTITION BY icao_empresa, numero_voo, codigo_di, codigo_tipo_linha,
-                     icao_origem, icao_destino, partida_prevista, partida_real,
+                     icao_aerodromo_origem, icao_aerodromo_destino, partida_prevista, partida_real,
                      chegada_prevista, chegada_real, situacao_voo
         ORDER BY _ingerido_em
       ) AS _rn
@@ -99,9 +99,9 @@ SELECT
   END                                                               AS escopo_voo,
 
   -- ===== chaves para dim_aeroporto =====
-  b.icao_origem,
-  b.icao_destino,
-  concat(b.icao_origem, ' - ', b.icao_destino)                      AS rota,
+  b.icao_aerodromo_origem,
+  b.icao_aerodromo_destino,
+  concat(b.icao_aerodromo_origem, ' - ', b.icao_aerodromo_destino)     AS rota,
 
   -- ===== tempo =====
   b.partida_prevista,

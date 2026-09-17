@@ -25,14 +25,14 @@ SELECT
   f.escopo_voo,
 
   -- ===== origem =====
-  f.icao_origem,
+  f.icao_aerodromo_origem,
   o.nome_aeroporto        AS nome_aeroporto_origem,
   o.municipio_aeroporto   AS municipio_origem,
   o.uf_aeroporto          AS uf_origem,
   o.pais_aeroporto        AS pais_origem,
 
   -- ===== destino =====
-  f.icao_destino,
+  f.icao_aerodromo_destino,
   d.nome_aeroporto        AS nome_aeroporto_destino,
   d.municipio_aeroporto   AS municipio_destino,
   d.uf_aeroporto          AS uf_destino,
@@ -40,8 +40,8 @@ SELECT
 
   -- ===== rota, em codigo e por extenso =====
   f.rota                                                            AS rota_icao,
-  concat(coalesce(o.municipio_aeroporto, f.icao_origem),  ' - ',
-         coalesce(d.municipio_aeroporto, f.icao_destino))           AS rota_municipios,
+  concat(coalesce(o.municipio_aeroporto, f.icao_aerodromo_origem),  ' - ',
+         coalesce(d.municipio_aeroporto, f.icao_aerodromo_destino))           AS rota_municipios,
 
   -- ===== tempo =====
   f.partida_prevista,
@@ -69,5 +69,5 @@ SELECT
 
   f._processado_em
 FROM voebem.gold.fato_voos f
-LEFT JOIN voebem.gold.dim_aeroporto o ON f.icao_origem  = o.icao_aeroporto
-LEFT JOIN voebem.gold.dim_aeroporto d ON f.icao_destino = d.icao_aeroporto
+LEFT JOIN voebem.gold.dim_aeroporto o ON f.icao_aerodromo_origem  = o.icao_aeroporto
+LEFT JOIN voebem.gold.dim_aeroporto d ON f.icao_aerodromo_destino = d.icao_aeroporto
