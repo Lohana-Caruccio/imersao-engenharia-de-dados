@@ -39,7 +39,7 @@ SELECT
     CASE WHEN NOT destino_no_cadastro THEN 'aeroporto_destino_no_cadastro_anac' END
   ) AS motivos_quarentena,
   current_timestamp() AS _quarentenado_em
-FROM vra_auditado
+FROM LIVE.vra_auditado
 WHERE NOT (
       partida_prevista IS NOT NULL AND chegada_prevista IS NOT NULL
   AND situacao_voo IN ('REALIZADO', 'CANCELADO')

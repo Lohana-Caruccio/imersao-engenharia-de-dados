@@ -18,7 +18,7 @@
 -- mede outra: as duas devolvem o mesmo numero e voce reporta 30 mil voos com
 -- "chegada antes da partida" que nao existem.
 -- ---------------------------------------------------------------------------
-CREATE LIVE VIEW vra_auditado (
+CREATE OR REFRESH MATERIALIZED VIEW vra_auditado (
   -- === completude ===
   CONSTRAINT horarios_previstos_presentes
     EXPECT (partida_prevista IS NOT NULL AND chegada_prevista IS NOT NULL),
