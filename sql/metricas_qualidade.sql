@@ -1,7 +1,7 @@
 -- ---------------------------------------------------------------------------
 -- Metricas do contrato de dados, lidas do event log do pipeline.
 --
--- O event log e uma TABELA (voebem.silver.eventos_qualidade), declarada no
+-- O event log e uma TABELA (voebem.silver.event_log_ed7e0d6b_9890_48fb_91b9_36c7b5edaa7f), declarada no
 -- create do pipeline. A coluna `details` e um JSON string; as metricas de
 -- expectation vivem em flow_progress.data_quality.expectations.
 --
@@ -18,7 +18,7 @@ WITH eventos AS (
          expectations: array<struct<name:string, dataset:string,
                                     passed_records:bigint, failed_records:bigint>>>>>'
     ) AS d
-  FROM voebem.silver.eventos_qualidade
+  FROM voebem.silver.event_log_ed7e0d6b_9890_48fb_91b9_36c7b5edaa7f
   WHERE event_type = 'flow_progress'
 )
 SELECT
@@ -29,7 +29,7 @@ SELECT
 FROM eventos
 LATERAL VIEW explode(d.flow_progress.data_quality.expectations) t AS x
 WHERE update_id = (
-  SELECT origin.update_id FROM voebem.silver.eventos_qualidade
+  SELECT origin.update_id FROM voebem.silver.event_log_ed7e0d6b_9890_48fb_91b9_36c7b5edaa7f
   ORDER BY timestamp DESC LIMIT 1
 )
 ORDER BY reprovadas DESC;
